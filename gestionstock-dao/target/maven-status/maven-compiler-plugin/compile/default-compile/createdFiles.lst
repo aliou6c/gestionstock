@@ -1,0 +1,5 @@
+sn\objis\gestionstock\dao\IDaoGenerique.class
+sn\objis\gestionstock\dao\IDaoProduit.class
+sn\objis\gestionstock\dao\IDaoFactureImpl.class
+sn\objis\gestionstock\dao\IDaoProduitImpl.class
+sn\objis\gestionstock\dao\IDaoFacture.class

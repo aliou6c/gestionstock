@@ -1,0 +1,5 @@
+sn\objis\gestionstock\service\IServiceFacture.class
+sn\objis\gestionstock\service\IServiceFactureImpl.class
+sn\objis\gestionstock\service\IServiceGenerique.class
+sn\objis\gestionstock\service\IServiceProduit.class
+sn\objis\gestionstock\service\IServiceProduitImpl.class
