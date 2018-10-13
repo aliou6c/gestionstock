@@ -192,7 +192,7 @@ public class MainGestionStock {
 						System.out.println("Entrer le nouvel prix de vente ");
 						int nouvelPrixDeVente = sc.nextInt();
 						System.out.println("enter la nouvelle quantite livrée");
-						int nouvelleQuantite = sc.nextInt();
+						int nouvelStockSortie = sc.nextInt();
 						System.out.println("Entrer le nouvel montant de la facture ");
 						int nouvelTotalFacture = sc.nextInt();
 						
@@ -200,7 +200,7 @@ public class MainGestionStock {
 						factureAModifier.setCodeProduit(nouveauCodeProduit);
 						factureAModifier.setReferenceFacture(nouvelleReferenceFacture);
 						factureAModifier.setPrixDeVente(nouvelPrixDeVente);
-						factureAModifier.setStockSortie(stockSortie);
+						factureAModifier.setStockSortie(nouvelStockSortie);
 						factureAModifier.setTotalFacture(nouvelTotalFacture);
 
 						serviceFacture.modify(factureAModifier);
