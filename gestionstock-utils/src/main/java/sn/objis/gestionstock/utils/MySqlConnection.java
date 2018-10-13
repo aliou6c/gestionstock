@@ -7,9 +7,13 @@ package sn.objis.gestionstock.utils;
  *
  */
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MySqlConnection {
 	
@@ -21,20 +25,34 @@ public class MySqlConnection {
 	//Constructeur priv� pour blocquer la cr�ation d'instance de la classe
 	private MySqlConnection() {
 		super();
-		// TODO Auto-generated constructor stub
+		
 	}
 	/**
 	 * Cette methode retourne l'unique instance de connexion avec la base
 	 * @return
+	 * @throws IOException 
+	 * @throws SecurityException 
+	 * @throws SQLException 
 	 */
-	public static Connection getInstanceConnection(){
+	public static Connection getInstanceConnection() throws SecurityException, IOException, SQLException{
+		Logger logger = Logger.getLogger("logger");
 		try {
+			 FileHandler fh= new FileHandler();
+
+			 logger.addHandler(fh);
 			if(conn==null) {// Aucune connexion avec la base
 				conn=DriverManager.getConnection(url, userDb, pwdDb);
-				System.out.println("Connexion établie avec la base");
+				 
+				 logger.log(Level.INFO, "Connexion établie avec la base");
+				  
+				//System.out.println("Connexion établie avec la base");
 			}
-		} catch (SQLException e) {
-			System.out.println("Problème de connexion");
+		} catch (IOException e) {
+			//System.out.println("Problème de connexion");
+			//e.printStackTrace();
+			logger.log(Level.INFO, "Probleme de connexion !");
+		}
+		catch(SecurityException e) {
 			e.printStackTrace();
 		}
 		return conn;
