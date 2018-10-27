@@ -13,7 +13,7 @@ import sn.objis.gestionstock.utils.MySqlConnection;
 
 public class IDaoFactureImpl implements IDaoFacture {
 	
-	PreparedStatement ps = null;
+	PreparedStatement preparedStatement = null;
 	//Obtention de l'unique instance de connexion à la base
 	Connection conn = MySqlConnection.getInstanceConnection(); 
 
@@ -25,18 +25,18 @@ public class IDaoFactureImpl implements IDaoFacture {
 		try {
 			//Etape 1: creation de la zone de requete
 			String sql = "INSERT INTO facture(numFacture,codeProduit,referenceFacture,prixDeVente,stockSortie,totalFacture) VALUES (?,?,?,?,?,?)";
-			PreparedStatement ps = conn.prepareStatement(sql);
+			PreparedStatement preparedStatement = conn.prepareStatement(sql);
 
 			//Etape 2: Transmission des valeurs aux paramètres de la requete
-			ps.setString(1,facture.getNumFacture());
-			ps.setString(2, facture.getCodeProduit());
-			ps.setString(3, facture.getReferenceFacture());
-			ps.setInt(4, facture.getPrixDeVente());
-			ps.setInt(5, facture.getStockSortie());
-			ps.setInt(6, facture.getTotalFacture());
+			preparedStatement.setString(1,facture.getNumFacture());
+			preparedStatement.setString(2, facture.getCodeProduit());
+			preparedStatement.setString(3, facture.getReferenceFacture());
+			preparedStatement.setInt(4, facture.getPrixDeVente());
+			preparedStatement.setInt(5, facture.getStockSortie());
+			preparedStatement.setInt(6, facture.getTotalFacture());
 
 			//Etape 3: execution de la requete
-			ps.executeUpdate();
+			preparedStatement.executeUpdate();
 
 			System.out.println("Insertion dans la base réussie !");		
 
@@ -48,9 +48,9 @@ public class IDaoFactureImpl implements IDaoFacture {
 			// PreparedStatement ps = conn.prepareStatement(sql);
 			try {
 
-				if(null!=ps){
+				if(null!=preparedStatement){
 
-					ps.close();
+					preparedStatement.close();
 
 				}
 
@@ -73,18 +73,18 @@ public class IDaoFactureImpl implements IDaoFacture {
 		try {
 			// creation de la zone de requete
 			String sql = " UPDATE facture SET numFacture = ?,codeProduit = ?, referenceFacture = ?, prixDeVente = ?,stockSortie = ?,totalFacture=? WHERE numFacture = ? ";
-			PreparedStatement ps = conn.prepareStatement(sql);
+			PreparedStatement preparedStatement = conn.prepareStatement(sql);
 
 			// transmission des valeurs aux parametres de la requete
-			ps.setString(1, facture.getNumFacture());
-			ps.setString(2, facture.getCodeProduit());
-			ps.setString(3, facture.getReferenceFacture());
-			ps.setInt(4, facture.getPrixDeVente());
-			ps.setInt(5, facture.getStockSortie());
-			ps.setInt(6, facture.getTotalFacture());
+			preparedStatement.setString(1, facture.getNumFacture());
+			preparedStatement.setString(2, facture.getCodeProduit());
+			preparedStatement.setString(3, facture.getReferenceFacture());
+			preparedStatement.setInt(4, facture.getPrixDeVente());
+			preparedStatement.setInt(5, facture.getStockSortie());
+			preparedStatement.setInt(6, facture.getTotalFacture());
 
 			// execution de la requete
-			ps.executeUpdate();
+			preparedStatement.executeUpdate();
 
 			System.out.println(" Modification effectuée ! ");
 			
@@ -97,9 +97,9 @@ public class IDaoFactureImpl implements IDaoFacture {
 			// PreparedStatement ps = conn.prepareStatement(sql);
 			try {
 
-				if(null!=ps){
+				if(null!=preparedStatement){
 
-					ps.close();
+					preparedStatement.close();
 
 				}
 
@@ -151,9 +151,9 @@ public class IDaoFactureImpl implements IDaoFacture {
 			// PreparedStatement ps = conn.prepareStatement(sql);
 			try {
 
-				if(null!=ps){
+				if(null!=preparedStatement){
 
-					ps.close();
+					preparedStatement.close();
 
 				}
 
@@ -192,9 +192,9 @@ public class IDaoFactureImpl implements IDaoFacture {
 			// PreparedStatement ps = conn.prepareStatement(sql);
 			try {
 
-				if(null!=ps){
+				if(null!=preparedStatement){
 
-					ps.close();
+					preparedStatement.close();
 
 				}
 
@@ -251,9 +251,9 @@ public class IDaoFactureImpl implements IDaoFacture {
 			// PreparedStatement ps = conn.prepareStatement(sql);
 			try {
 
-				if(null!=ps){
+				if(null!=preparedStatement){
 
-					ps.close();
+					preparedStatement.close();
 
 				}
 
