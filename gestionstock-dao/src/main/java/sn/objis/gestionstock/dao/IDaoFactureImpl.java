@@ -12,12 +12,14 @@ import sn.objis.gestionstock.domaine.Facture;
 import sn.objis.gestionstock.utils.MySqlConnection;
 
 public class IDaoFactureImpl implements IDaoFacture {
+	
+	PreparedStatement ps = null;
 	//Obtention de l'unique instance de connexion à la base
-			Connection conn = MySqlConnection.getInstanceConnection();
+	Connection conn = MySqlConnection.getInstanceConnection(); 
 
-		/**
-		 * permet d'inserer dans la base une facture
-		 */
+	/**
+	 * permet d'inserer dans la base une facture
+	 */
 	@Override
 	public void creer(Facture facture) {
 		try {
@@ -32,7 +34,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 			ps.setInt(4, facture.getPrixDeVente());
 			ps.setInt(5, facture.getStockSortie());
 			ps.setInt(6, facture.getTotalFacture());
-						
+
 			//Etape 3: execution de la requete
 			ps.executeUpdate();
 
@@ -42,8 +44,25 @@ public class IDaoFactureImpl implements IDaoFacture {
 			System.out.println(" Insertion échouée !");
 			e.printStackTrace();
 		}
-		
-	}
+		finally {
+			// PreparedStatement ps = conn.prepareStatement(sql);
+			try {
+
+				if(null!=ps){
+
+					ps.close();
+
+				}
+
+			} catch (SQLException e) {
+
+				System.out.println("Exception During  close statement  "+e);
+
+			}
+		}
+
+			
+		}
 	
 	/**
 	 * permet de modifier une facture à partir du numFacture
@@ -55,7 +74,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 			// creation de la zone de requete
 			String sql = " UPDATE facture SET numFacture = ?,codeProduit = ?, referenceFacture = ?, prixDeVente = ?,stockSortie = ?,totalFacture=? WHERE numFacture = ? ";
 			PreparedStatement ps = conn.prepareStatement(sql);
-			
+
 			// transmission des valeurs aux parametres de la requete
 			ps.setString(1, facture.getNumFacture());
 			ps.setString(2, facture.getCodeProduit());
@@ -63,20 +82,38 @@ public class IDaoFactureImpl implements IDaoFacture {
 			ps.setInt(4, facture.getPrixDeVente());
 			ps.setInt(5, facture.getStockSortie());
 			ps.setInt(6, facture.getTotalFacture());
-						
+
 			// execution de la requete
 			ps.executeUpdate();
 
 			System.out.println(" Modification effectuée ! ");
-
-		} catch (SQLException e) {
+			
+		}
+		 catch (SQLException e) {
 			System.out.println(" Echec de la mise à jour ! ");
 			e.printStackTrace();
 		}
-	
+		finally {
+			// PreparedStatement ps = conn.prepareStatement(sql);
+			try {
+
+				if(null!=ps){
+
+					ps.close();
+
+				}
+
+			} catch (SQLException e) {
+
+				System.out.println("Exception During  close statement  "+e);
+
+			}
+		}
 		
-	}
+		}
+
 	
+
 	/**
 	 * permet de lister toutes les factures
 	 */
@@ -102,16 +139,34 @@ public class IDaoFactureImpl implements IDaoFacture {
 				facture.setPrixDeVente(rs.getInt("prixDeVente"));
 				facture.setStockSortie(rs.getInt("stockSortie"));
 				facture.setTotalFacture(rs.getInt("totalFacture"));
-				
+
 				listeFacture.add(facture);		
 			}
-		} catch (SQLException e) {
+			}
+			catch (SQLException e) {
 
 			e.printStackTrace();
 		}
+		finally {
+			// PreparedStatement ps = conn.prepareStatement(sql);
+			try {
+
+				if(null!=ps){
+
+					ps.close();
+
+				}
+
+			} catch (SQLException e) {
+
+				System.out.println("Exception During  close statement  "+e);
+
+			}
+		}
+		
 		return listeFacture;
 	}
-	
+
 	/**
 	 * permet de supprimer une facture à partir du numero facture
 	 */
@@ -121,23 +176,39 @@ public class IDaoFactureImpl implements IDaoFacture {
 			// creation de la zone de requete
 			String sql = "DELETE FROM facture WHERE numFacture = ?";
 			PreparedStatement ps = conn.prepareStatement(sql);
-			
+
 			// transmission de valeurs au parametre de la requete
 			ps.setString(1, facture.getNumFacture());
-			
+
 			//execution de la requete
 			ps.executeUpdate();
-			
+
 			System.out.println("Facture supprimée de la base !");
 		} catch (SQLException e) {
 			System.out.println("cette Facture n'existe pas dans la base!");
 			e.printStackTrace();
 		}
+		finally {
+			// PreparedStatement ps = conn.prepareStatement(sql);
+			try {
 
-		
-		
+				if(null!=ps){
+
+					ps.close();
+
+				}
+
+			} catch (SQLException e) {
+
+				System.out.println("Exception During  close statement  "+e);
+
+			}
+		}
+
+
+
 	}
-	
+
 	/**
 	 * permet de trouver une facture à partir du numero facture
 	 */
@@ -149,12 +220,12 @@ public class IDaoFactureImpl implements IDaoFacture {
 			// creation de la zone de requete
 			String sql = "SELECT * FROM facture WHERE numFacture = ? ";
 			PreparedStatement ps = conn.prepareStatement(sql);
-			
+
 			ps.setString(1, numFacture);
-			
+
 			//execution de la requete
 			ResultSet rs = ps.executeQuery();
-			
+
 			// traitement du resultat de la requete
 			while (rs.next()) {
 				int idFactureRecup = rs.getInt("idFacture");
@@ -164,9 +235,9 @@ public class IDaoFactureImpl implements IDaoFacture {
 				int prixDeVenteRecup = rs.getInt("prixDeVente");
 				int stockSortieRecup = rs.getInt("stockSortie");
 				int totalFactureRecup = rs.getInt("totalFacture");
-				
+
 				facture = new Facture(idFactureRecup, numFactureRecup, codeProduitRecup, referenceFactureRecup, prixDeVenteRecup, stockSortieRecup, totalFactureRecup);
-				
+
 				if(facture != null) {
 					System.out.println("Facture trouvée !");
 				}				
@@ -175,6 +246,22 @@ public class IDaoFactureImpl implements IDaoFacture {
 		} catch (SQLException e) {
 			System.out.println("cette facture n'existe pas !");
 			e.printStackTrace();
+		}
+		finally {
+			// PreparedStatement ps = conn.prepareStatement(sql);
+			try {
+
+				if(null!=ps){
+
+					ps.close();
+
+				}
+
+			} catch (SQLException e) {
+
+				System.out.println("Exception During  close statement  "+e);
+
+			}
 		}
 
 		return facture;

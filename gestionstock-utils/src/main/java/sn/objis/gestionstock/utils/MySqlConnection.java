@@ -23,10 +23,11 @@ public class MySqlConnection {
 	private static Connection conn= null;//l'unique instance de connexion à la base
 	
 	//Constructeur priv� pour blocquer la cr�ation d'instance de la classe
-	private MySqlConnection() {
+	public MySqlConnection(){
 		super();
 		
 	}
+	
 	/**
 	 * Cette methode retourne l'unique instance de connexion avec la base
 	 * @return
@@ -34,7 +35,7 @@ public class MySqlConnection {
 	 * @throws SecurityException 
 	 * @throws SQLException 
 	 */
-	public static Connection getInstanceConnection() throws SecurityException, IOException, SQLException{
+	public static Connection getInstanceConnection() {
 		Logger logger = Logger.getLogger("logger");
 		try {
 			 FileHandler fh= new FileHandler();
@@ -52,12 +53,19 @@ public class MySqlConnection {
 			//e.printStackTrace();
 			logger.log(Level.INFO, "Probleme de connexion !");
 		}
+		/*}
 		catch(SecurityException e) {
 			e.printStackTrace();
+		}*/
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+
 		}
 		return conn;
 	}
 	
-	
+		
 	
 }
