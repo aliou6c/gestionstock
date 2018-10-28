@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import sn.objis.gestionstock.domaine.Facture;
@@ -132,13 +131,13 @@ public class IDaoFactureImpl implements IDaoFacture {
 		try {
 			// creation de la zone de requete
 			String sql = "DELETE FROM facture WHERE numFacture = ?";
-			PreparedStatement ps = conn.prepareStatement(sql);
+			PreparedStatement preparedStatement1 = conn.prepareStatement(sql);
 
 			// transmission de valeurs au parametre de la requete
-			ps.setString(1, facture.getNumFacture());
+			preparedStatement1.setString(1, facture.getNumFacture());
 
 			//execution de la requete
-			ps.executeUpdate();
+			preparedStatement1.executeUpdate();
 
 			System.out.println("Facture supprimée de la base !");
 		} catch (SQLException e) {
@@ -186,7 +185,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 			System.out.println("cette facture n'existe pas !");
 			e.printStackTrace();
 		}
-		finally {
+		/*finally {
 			
 			try {
 
@@ -201,7 +200,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 				logger.log(Level.INFO,"Exception During  close statement");
 
 			}
-		}
+		}*/
 
 		return facture;
 	}
