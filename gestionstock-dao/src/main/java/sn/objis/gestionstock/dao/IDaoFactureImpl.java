@@ -7,49 +7,45 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
-
 import sn.objis.gestionstock.domaine.Facture;
 import sn.objis.gestionstock.utils.MySqlConnection;
 
 public class IDaoFactureImpl implements IDaoFacture {
-	Logger logger = Logger.getLogger("logger");
-	PreparedStatement preparedStatement1 = null;
-	//Obtention de l'unique instance de connexion à la base
-	Connection conn = MySqlConnection.getInstanceConnection(); 
+
+	// Obtention de l'unique instance de connexion à la base
+	Connection conn = MySqlConnection.getInstanceConnection();
 
 	/**
 	 * permet d'inserer dans la base une facture
 	 */
 	@Override
 	public void creer(Facture facture) {
-		
+
 		try {
-			//Etape 1: creation de la zone de requete
+			// Etape 1: creation de la zone de requete
 			String sql = "INSERT INTO facture(numFacture,codeProduit,referenceFacture,prixDeVente,stockSortie,totalFacture) VALUES (?,?,?,?,?,?)";
 			PreparedStatement preparedStatement1 = conn.prepareStatement(sql);
 
-			//Etape 2: Transmission des valeurs aux paramètres de la requete
-			preparedStatement1.setString(1,facture.getNumFacture());
+			// Etape 2: Transmission des valeurs aux paramètres de la requete
+			preparedStatement1.setString(1, facture.getNumFacture());
 			preparedStatement1.setString(2, facture.getCodeProduit());
 			preparedStatement1.setString(3, facture.getReferenceFacture());
 			preparedStatement1.setInt(4, facture.getPrixDeVente());
 			preparedStatement1.setInt(5, facture.getStockSortie());
 			preparedStatement1.setInt(6, facture.getTotalFacture());
 
-			//Etape 3: execution de la requete
+			// Etape 3: execution de la requete
 			preparedStatement1.executeUpdate();
 
-			System.out.println("Insertion dans la base réussie !");		
+			System.out.println("Insertion dans la base réussie !");
 
 		} catch (SQLException e) {
 			System.out.println(" Insertion échouée !");
 			e.printStackTrace();
 		}
-		
-			
-		}
-	
+
+	}
+
 	/**
 	 * permet de modifier une facture à partir du numFacture
 	 */
@@ -60,7 +56,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 			// creation de la zone de requete
 			String sql = " UPDATE facture SET numFacture = ?,codeProduit = ?, referenceFacture = ?, prixDeVente = ?,stockSortie = ?,totalFacture=? WHERE numFacture = ? ";
 			PreparedStatement preparedStatement1 = conn.prepareStatement(sql);
-		
+
 			// transmission des valeurs aux parametres de la requete
 			preparedStatement1.setString(1, facture.getNumFacture());
 			preparedStatement1.setString(2, facture.getCodeProduit());
@@ -73,17 +69,13 @@ public class IDaoFactureImpl implements IDaoFacture {
 			preparedStatement1.executeUpdate();
 
 			System.out.println(" Modification effectuée ! ");
-			
-		}
-		 catch (SQLException e) {
+
+		} catch (SQLException e) {
 			System.out.println(" Echec de la mise à jour ! ");
 			e.printStackTrace();
 		}
-		
-		
-		}
 
-	
+	}
 
 	/**
 	 * permet de lister toutes les factures
@@ -91,7 +83,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 
 	@Override
 	public List<Facture> afficher() {
-		List<Facture>listeFacture = new ArrayList<>();
+		List<Facture> listeFacture = new ArrayList<>();
 		try {
 			// creation de la zone de requete
 			String sql = "SELECT * FROM facture ";
@@ -111,15 +103,13 @@ public class IDaoFactureImpl implements IDaoFacture {
 				facture.setStockSortie(rs.getInt("stockSortie"));
 				facture.setTotalFacture(rs.getInt("totalFacture"));
 
-				listeFacture.add(facture);		
+				listeFacture.add(facture);
 			}
-			}
-			catch (SQLException e) {
+		} catch (SQLException e) {
 
 			e.printStackTrace();
 		}
-	
-		
+
 		return listeFacture;
 	}
 
@@ -136,7 +126,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 			// transmission de valeurs au parametre de la requete
 			preparedStatement1.setString(1, facture.getNumFacture());
 
-			//execution de la requete
+			// execution de la requete
 			preparedStatement1.executeUpdate();
 
 			System.out.println("Facture supprimée de la base !");
@@ -144,7 +134,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 			System.out.println("cette Facture n'existe pas dans la base!");
 			e.printStackTrace();
 		}
-	
+
 	}
 
 	/**
@@ -161,7 +151,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 
 			preparedStatement1.setString(1, numFacture);
 
-			//execution de la requete
+			// execution de la requete
 			ResultSet rs = preparedStatement1.executeQuery();
 
 			// traitement du resultat de la requete
@@ -174,33 +164,18 @@ public class IDaoFactureImpl implements IDaoFacture {
 				int stockSortieRecup = rs.getInt("stockSortie");
 				int totalFactureRecup = rs.getInt("totalFacture");
 
-				facture = new Facture(idFactureRecup, numFactureRecup, codeProduitRecup, referenceFactureRecup, prixDeVenteRecup, stockSortieRecup, totalFactureRecup);
+				facture = new Facture(idFactureRecup, numFactureRecup, codeProduitRecup, referenceFactureRecup,
+						prixDeVenteRecup, stockSortieRecup, totalFactureRecup);
 
-				if(facture != null) {
+				if (facture != null) {
 					System.out.println("Facture trouvée !");
-				}				
+				}
 			}
 
 		} catch (SQLException e) {
 			System.out.println("cette facture n'existe pas !");
 			e.printStackTrace();
 		}
-		/*finally {
-			
-			try {
-
-				if(null!=preparedStatement1){
-
-					preparedStatement1.close();
-
-				}
-
-			} catch (SQLException e) {
-
-				logger.log(Level.INFO,"Exception During  close statement");
-
-			}
-		}*/
 
 		return facture;
 	}

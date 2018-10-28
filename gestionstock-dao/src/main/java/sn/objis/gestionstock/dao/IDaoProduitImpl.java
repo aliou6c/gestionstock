@@ -12,8 +12,8 @@ import sn.objis.gestionstock.domaine.Produit;
 import sn.objis.gestionstock.utils.MySqlConnection;
 
 public class IDaoProduitImpl implements IDaoProduit {
-	//Obtention de l'unique instance de connexion à la base
-		Connection conn = MySqlConnection.getInstanceConnection();
+	// Obtention de l'unique instance de connexion à la base
+	Connection conn = MySqlConnection.getInstanceConnection();
 
 	/**
 	 * permet d'inserer dans la base un produit
@@ -21,11 +21,11 @@ public class IDaoProduitImpl implements IDaoProduit {
 	@Override
 	public void creer(Produit produit) {
 		try {
-			//Etape 1: creation de la zone de requete
+			// Etape 1: creation de la zone de requete
 			String sql = "INSERT INTO produit(codeProduit,designationProduit,rayon,fournisseur,prix,remise,stock) VALUES (?,?,?,?,?,?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
 
-			//Etape 2: Transmission des valeurs aux paramètres de la requete
+			// Etape 2: Transmission des valeurs aux paramètres de la requete
 			ps.setString(1, produit.getCodeProduit());
 			ps.setString(2, produit.getDesignationProduit());
 			ps.setInt(3, produit.getRayon());
@@ -33,20 +33,19 @@ public class IDaoProduitImpl implements IDaoProduit {
 			ps.setInt(5, produit.getPrix());
 			ps.setInt(6, produit.getRemise());
 			ps.setInt(7, produit.getStock());
-			
-			//Etape 3: execution de la requete
+
+			// Etape 3: execution de la requete
 			ps.executeUpdate();
 
-			System.out.println("Insertion dans la base réussie !");		
+			System.out.println("Insertion dans la base réussie !");
 
 		} catch (SQLException e) {
 			System.out.println(" Insertion échouée !");
 			e.printStackTrace();
 		}
-		
-		
+
 	}
-	
+
 	/**
 	 * permet de modifier un produit
 	 */
@@ -57,7 +56,7 @@ public class IDaoProduitImpl implements IDaoProduit {
 			// creation de la zone de requete
 			String sql = " UPDATE produit SET codeProduit = ?, designationProduit = ?, rayon = ?,fournisseur = ?,prix=?,remise=?,stock=? WHERE codeProduit = ? ";
 			PreparedStatement ps = conn.prepareStatement(sql);
-			
+
 			// transmission des valeurs aux parametres de la requete
 			ps.setString(1, produit.getCodeProduit());
 			ps.setString(2, produit.getDesignationProduit());
@@ -66,7 +65,7 @@ public class IDaoProduitImpl implements IDaoProduit {
 			ps.setInt(5, produit.getPrix());
 			ps.setInt(6, produit.getRemise());
 			ps.setInt(7, produit.getStock());
-			
+
 			// execution de la requete
 			ps.executeUpdate();
 
@@ -76,16 +75,15 @@ public class IDaoProduitImpl implements IDaoProduit {
 			System.out.println(" Echec de la mise à jour ! ");
 			e.printStackTrace();
 		}
-		
-		
+
 	}
-	
+
 	/**
 	 * permet de lister tous les produits
 	 */
 	@Override
 	public List<Produit> afficher() {
-		List<Produit>listeProduit = new ArrayList<>();
+		List<Produit> listeProduit = new ArrayList<>();
 		try {
 			// creation de la zone de requete
 			String sql = "SELECT * FROM produit ";
@@ -106,7 +104,7 @@ public class IDaoProduitImpl implements IDaoProduit {
 				produit.setRemise(rs.getInt("remise"));
 				produit.setStock(rs.getInt("stock"));
 
-				listeProduit.add(produit);		
+				listeProduit.add(produit);
 			}
 		} catch (SQLException e) {
 
@@ -124,23 +122,21 @@ public class IDaoProduitImpl implements IDaoProduit {
 			// creation de la zone de requete
 			String sql = "DELETE FROM produit WHERE codeProduit = ?";
 			PreparedStatement ps = conn.prepareStatement(sql);
-			
+
 			// transmission de valeurs au parametre de la requete
 			ps.setString(1, produit.getCodeProduit());
-			
-			//execution de la requete
+
+			// execution de la requete
 			ps.executeUpdate();
-			
+
 			System.out.println("Produit supprimé de la base !");
 		} catch (SQLException e) {
 			System.out.println("cet Produit n'existe pas dans la base!");
 			e.printStackTrace();
 		}
 
-		
-		
 	}
-	
+
 	/**
 	 * permet de retrouver un produit quelconque à partir de son code produit
 	 */
@@ -152,12 +148,12 @@ public class IDaoProduitImpl implements IDaoProduit {
 			// creation de la zone de requete
 			String sql = "SELECT * FROM produit WHERE codeProduit = ? ";
 			PreparedStatement ps = conn.prepareStatement(sql);
-			
+
 			ps.setString(1, codeProduit);
-			
-			//execution de la requete
+
+			// execution de la requete
 			ResultSet rs = ps.executeQuery();
-			
+
 			// traitement du resultat de la requete
 			while (rs.next()) {
 				int idProduitRecup = rs.getInt("idProduit");
@@ -169,11 +165,12 @@ public class IDaoProduitImpl implements IDaoProduit {
 				int remiseRecup = rs.getInt("remise");
 				int stockRecup = rs.getInt("stock");
 
-				produit = new Produit(idProduitRecup, codeProduitRecup, designationProduitRecup, rayonRecup, fournisseurRecup, prixRecup, remiseRecup, stockRecup);
+				produit = new Produit(idProduitRecup, codeProduitRecup, designationProduitRecup, rayonRecup,
+						fournisseurRecup, prixRecup, remiseRecup, stockRecup);
 
-				if(produit != null) {
+				if (produit != null) {
 					System.out.println("Produit trouvé !");
-				}				
+				}
 			}
 
 		} catch (SQLException e) {
