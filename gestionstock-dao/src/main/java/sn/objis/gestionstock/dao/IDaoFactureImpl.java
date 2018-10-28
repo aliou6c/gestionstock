@@ -47,7 +47,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 			System.out.println(" Insertion échouée !");
 			e.printStackTrace();
 		}
-		finally {
+		/*finally {			
 			
 			try {
 
@@ -62,8 +62,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 				logger.log(Level.INFO, "echec de fermeture de statement");
 
 			}
-		}
-
+		}*/
 			
 		}
 	
@@ -77,7 +76,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 			// creation de la zone de requete
 			String sql = " UPDATE facture SET numFacture = ?,codeProduit = ?, referenceFacture = ?, prixDeVente = ?,stockSortie = ?,totalFacture=? WHERE numFacture = ? ";
 			PreparedStatement preparedStatement1 = conn.prepareStatement(sql);
-
+		
 			// transmission des valeurs aux parametres de la requete
 			preparedStatement1.setString(1, facture.getNumFacture());
 			preparedStatement1.setString(2, facture.getCodeProduit());
@@ -96,8 +95,8 @@ public class IDaoFactureImpl implements IDaoFacture {
 			System.out.println(" Echec de la mise à jour ! ");
 			e.printStackTrace();
 		}
-		finally {
-			// PreparedStatement ps = conn.prepareStatement(sql);
+		/*finally {
+			
 			try {
 
 				if(null!=preparedStatement1){
@@ -111,7 +110,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 				logger.log(Level.INFO, "Echec de fermeture de statement");
 
 			}
-		}
+		}*/
 		
 		}
 
@@ -150,7 +149,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 
 			e.printStackTrace();
 		}
-		finally {
+	/*	finally {
 			
 			try {
 
@@ -165,7 +164,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 				logger.log(Level.INFO,"Exception During  close statement");
 
 			}
-		}
+		}*/
 		
 		return listeFacture;
 	}
@@ -191,7 +190,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 			System.out.println("cette Facture n'existe pas dans la base!");
 			e.printStackTrace();
 		}
-		finally {
+	/*	finally {
 			try {
 
 				if(null!=preparedStatement1){
@@ -205,7 +204,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 				logger.log(Level.INFO,"Exception During  close statement  ");
 
 			}
-		}
+		}*/
 
 
 
