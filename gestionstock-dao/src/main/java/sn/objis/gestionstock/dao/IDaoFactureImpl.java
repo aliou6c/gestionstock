@@ -47,22 +47,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 			System.out.println(" Insertion échouée !");
 			e.printStackTrace();
 		}
-		/*finally {			
-			
-			try {
-
-				if(null!=preparedStatement1){
-
-					preparedStatement1.close();
-
-				}
-
-			} catch (SQLException e) {
-
-				logger.log(Level.INFO, "echec de fermeture de statement");
-
-			}
-		}*/
+		
 			
 		}
 	
@@ -95,22 +80,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 			System.out.println(" Echec de la mise à jour ! ");
 			e.printStackTrace();
 		}
-		/*finally {
-			
-			try {
-
-				if(null!=preparedStatement1){
-
-					preparedStatement1.close();
-
-				}
-
-			} catch (SQLException e) {
-
-				logger.log(Level.INFO, "Echec de fermeture de statement");
-
-			}
-		}*/
+		
 		
 		}
 
@@ -149,22 +119,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 
 			e.printStackTrace();
 		}
-	/*	finally {
-			
-			try {
-
-				if(null!=preparedStatement1){
-
-					preparedStatement1.close();
-
-				}
-
-			} catch (SQLException e) {
-
-				logger.log(Level.INFO,"Exception During  close statement");
-
-			}
-		}*/
+	
 		
 		return listeFacture;
 	}
@@ -190,24 +145,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 			System.out.println("cette Facture n'existe pas dans la base!");
 			e.printStackTrace();
 		}
-	/*	finally {
-			try {
-
-				if(null!=preparedStatement1){
-
-					preparedStatement1.close();
-
-				}
-
-			} catch (SQLException e) {
-
-				logger.log(Level.INFO,"Exception During  close statement  ");
-
-			}
-		}*/
-
-
-
+	
 	}
 
 	/**
@@ -220,12 +158,12 @@ public class IDaoFactureImpl implements IDaoFacture {
 		try {
 			// creation de la zone de requete
 			String sql = "SELECT * FROM facture WHERE numFacture = ? ";
-			PreparedStatement ps = conn.prepareStatement(sql);
+			PreparedStatement preparedStatement1 = conn.prepareStatement(sql);
 
-			ps.setString(1, numFacture);
+			preparedStatement1.setString(1, numFacture);
 
 			//execution de la requete
-			ResultSet rs = ps.executeQuery();
+			ResultSet rs = preparedStatement1.executeQuery();
 
 			// traitement du resultat de la requete
 			while (rs.next()) {
