@@ -7,13 +7,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import sn.objis.gestionstock.domaine.Facture;
 import sn.objis.gestionstock.utils.MySqlConnection;
 
 public class IDaoFactureImpl implements IDaoFacture {
-	
-	PreparedStatement preparedStatement = null;
+	Logger logger = Logger.getLogger("logger");
+	PreparedStatement preparedStatement1 = null;
 	//Obtention de l'unique instance de connexion à la base
 	Connection conn = MySqlConnection.getInstanceConnection(); 
 
@@ -22,21 +24,22 @@ public class IDaoFactureImpl implements IDaoFacture {
 	 */
 	@Override
 	public void creer(Facture facture) {
+		
 		try {
 			//Etape 1: creation de la zone de requete
 			String sql = "INSERT INTO facture(numFacture,codeProduit,referenceFacture,prixDeVente,stockSortie,totalFacture) VALUES (?,?,?,?,?,?)";
-			PreparedStatement preparedStatement = conn.prepareStatement(sql);
+			PreparedStatement preparedStatement1 = conn.prepareStatement(sql);
 
 			//Etape 2: Transmission des valeurs aux paramètres de la requete
-			preparedStatement.setString(1,facture.getNumFacture());
-			preparedStatement.setString(2, facture.getCodeProduit());
-			preparedStatement.setString(3, facture.getReferenceFacture());
-			preparedStatement.setInt(4, facture.getPrixDeVente());
-			preparedStatement.setInt(5, facture.getStockSortie());
-			preparedStatement.setInt(6, facture.getTotalFacture());
+			preparedStatement1.setString(1,facture.getNumFacture());
+			preparedStatement1.setString(2, facture.getCodeProduit());
+			preparedStatement1.setString(3, facture.getReferenceFacture());
+			preparedStatement1.setInt(4, facture.getPrixDeVente());
+			preparedStatement1.setInt(5, facture.getStockSortie());
+			preparedStatement1.setInt(6, facture.getTotalFacture());
 
 			//Etape 3: execution de la requete
-			preparedStatement.executeUpdate();
+			preparedStatement1.executeUpdate();
 
 			System.out.println("Insertion dans la base réussie !");		
 
@@ -45,18 +48,18 @@ public class IDaoFactureImpl implements IDaoFacture {
 			e.printStackTrace();
 		}
 		finally {
-			// PreparedStatement ps = conn.prepareStatement(sql);
+			
 			try {
 
-				if(null!=preparedStatement){
+				if(null!=preparedStatement1){
 
-					preparedStatement.close();
+					preparedStatement1.close();
 
 				}
 
 			} catch (SQLException e) {
 
-				System.out.println("Exception During  close statement  "+e);
+				logger.log(Level.INFO, "echec de fermeture de statement");
 
 			}
 		}
@@ -73,18 +76,18 @@ public class IDaoFactureImpl implements IDaoFacture {
 		try {
 			// creation de la zone de requete
 			String sql = " UPDATE facture SET numFacture = ?,codeProduit = ?, referenceFacture = ?, prixDeVente = ?,stockSortie = ?,totalFacture=? WHERE numFacture = ? ";
-			PreparedStatement preparedStatement = conn.prepareStatement(sql);
+			PreparedStatement preparedStatement1 = conn.prepareStatement(sql);
 
 			// transmission des valeurs aux parametres de la requete
-			preparedStatement.setString(1, facture.getNumFacture());
-			preparedStatement.setString(2, facture.getCodeProduit());
-			preparedStatement.setString(3, facture.getReferenceFacture());
-			preparedStatement.setInt(4, facture.getPrixDeVente());
-			preparedStatement.setInt(5, facture.getStockSortie());
-			preparedStatement.setInt(6, facture.getTotalFacture());
+			preparedStatement1.setString(1, facture.getNumFacture());
+			preparedStatement1.setString(2, facture.getCodeProduit());
+			preparedStatement1.setString(3, facture.getReferenceFacture());
+			preparedStatement1.setInt(4, facture.getPrixDeVente());
+			preparedStatement1.setInt(5, facture.getStockSortie());
+			preparedStatement1.setInt(6, facture.getTotalFacture());
 
 			// execution de la requete
-			preparedStatement.executeUpdate();
+			preparedStatement1.executeUpdate();
 
 			System.out.println(" Modification effectuée ! ");
 			
@@ -97,15 +100,15 @@ public class IDaoFactureImpl implements IDaoFacture {
 			// PreparedStatement ps = conn.prepareStatement(sql);
 			try {
 
-				if(null!=preparedStatement){
+				if(null!=preparedStatement1){
 
-					preparedStatement.close();
+					preparedStatement1.close();
 
 				}
 
 			} catch (SQLException e) {
 
-				System.out.println("Exception During  close statement  "+e);
+				logger.log(Level.INFO, "Echec de fermeture de statement");
 
 			}
 		}
@@ -148,18 +151,18 @@ public class IDaoFactureImpl implements IDaoFacture {
 			e.printStackTrace();
 		}
 		finally {
-			// PreparedStatement ps = conn.prepareStatement(sql);
+			
 			try {
 
-				if(null!=preparedStatement){
+				if(null!=preparedStatement1){
 
-					preparedStatement.close();
+					preparedStatement1.close();
 
 				}
 
 			} catch (SQLException e) {
 
-				System.out.println("Exception During  close statement  "+e);
+				logger.log(Level.INFO,"Exception During  close statement");
 
 			}
 		}
@@ -189,18 +192,17 @@ public class IDaoFactureImpl implements IDaoFacture {
 			e.printStackTrace();
 		}
 		finally {
-			// PreparedStatement ps = conn.prepareStatement(sql);
 			try {
 
-				if(null!=preparedStatement){
+				if(null!=preparedStatement1){
 
-					preparedStatement.close();
+					preparedStatement1.close();
 
 				}
 
 			} catch (SQLException e) {
 
-				System.out.println("Exception During  close statement  "+e);
+				logger.log(Level.INFO,"Exception During  close statement  ");
 
 			}
 		}
@@ -248,18 +250,18 @@ public class IDaoFactureImpl implements IDaoFacture {
 			e.printStackTrace();
 		}
 		finally {
-			// PreparedStatement ps = conn.prepareStatement(sql);
+			
 			try {
 
-				if(null!=preparedStatement){
+				if(null!=preparedStatement1){
 
-					preparedStatement.close();
+					preparedStatement1.close();
 
 				}
 
 			} catch (SQLException e) {
 
-				System.out.println("Exception During  close statement  "+e);
+				logger.log(Level.INFO,"Exception During  close statement");
 
 			}
 		}
