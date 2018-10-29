@@ -7,10 +7,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
 import sn.objis.gestionstock.domaine.Facture;
 import sn.objis.gestionstock.utils.MySqlConnection;
 
 public class IDaoFactureImpl implements IDaoFacture {
+	PreparedStatement preparedStatement1 = null;
 
 	// Obtention de l'unique instance de connexion à la base
 	Connection conn = MySqlConnection.getInstanceConnection();
@@ -84,6 +86,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 	@Override
 	public List<Facture> afficher() {
 		List<Facture> listeFacture = new ArrayList<>();
+		
 		try {
 			// creation de la zone de requete
 			String sql = "SELECT * FROM facture ";
@@ -109,6 +112,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 
 			e.printStackTrace();
 		}
+		
 
 		return listeFacture;
 	}
@@ -175,6 +179,14 @@ public class IDaoFactureImpl implements IDaoFacture {
 		} catch (SQLException e) {
 			System.out.println("cette facture n'existe pas !");
 			e.printStackTrace();
+		}
+		finally {
+			try {
+				preparedStatement1.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		return facture;
