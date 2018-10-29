@@ -16,6 +16,7 @@ import sn.objis.gestionstock.utils.MySqlConnection;
 public class IDaoFactureImpl implements IDaoFacture {
 	PreparedStatement preparedStatement1 = null;
 	Statement st = null;
+	ResultSet rs = null;
 	Logger logger = Logger.getLogger("logger");
 
 	// Obtention de l'unique instance de connexion à la base
@@ -98,7 +99,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 			 st = conn.createStatement();
 
 			// execution de la requete
-			ResultSet rs = st.executeQuery(sql);
+			 rs = st.executeQuery(sql);
 
 			// traitement du resultat de la requete
 			while (rs.next()) {
@@ -151,7 +152,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 			logger.log(Level.INFO,"cette Facture n'existe pas dans la base!");
 			
 		}
-
+		
 	}
 
 	/**
@@ -169,7 +170,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 			preparedStatement1.setString(1, numFacture);
 
 			// execution de la requete
-			ResultSet rs = preparedStatement1.executeQuery();
+			 rs = preparedStatement1.executeQuery();
 
 			// traitement du resultat de la requete
 			while (rs.next()) {
@@ -196,6 +197,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 		finally {
 			try {
 				preparedStatement1.close();
+				rs.close();
 				
 			} catch (SQLException e) {
 				
