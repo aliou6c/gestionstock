@@ -7,12 +7,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import sn.objis.gestionstock.domaine.Facture;
 import sn.objis.gestionstock.utils.MySqlConnection;
 
 public class IDaoFactureImpl implements IDaoFacture {
 	PreparedStatement preparedStatement1 = null;
+	Statement st = null;
+	Logger logger = Logger.getLogger("logger");
 
 	// Obtention de l'unique instance de connexion à la base
 	Connection conn = MySqlConnection.getInstanceConnection();
@@ -42,8 +46,8 @@ public class IDaoFactureImpl implements IDaoFacture {
 			System.out.println("Insertion dans la base réussie !");
 
 		} catch (SQLException e) {
-			System.out.println(" Insertion échouée !");
-			e.printStackTrace();
+			logger.log(Level.INFO," Insertion échouée !");
+			
 		}
 
 	}
@@ -73,8 +77,8 @@ public class IDaoFactureImpl implements IDaoFacture {
 			System.out.println(" Modification effectuée ! ");
 
 		} catch (SQLException e) {
-			System.out.println(" Echec de la mise à jour ! ");
-			e.printStackTrace();
+			logger.log(Level.INFO," Echec de la mise à jour ! ");
+			
 		}
 
 	}
@@ -86,7 +90,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 	@Override
 	public List<Facture> afficher() {
 		List<Facture> listeFacture = new ArrayList<>();
-		Statement st = null;
+		
 		
 		try {
 			// creation de la zone de requete
@@ -117,7 +121,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 			try {
 				st.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 		}
@@ -142,9 +146,10 @@ public class IDaoFactureImpl implements IDaoFacture {
 			preparedStatement1.executeUpdate();
 
 			System.out.println("Facture supprimée de la base !");
+			
 		} catch (SQLException e) {
-			System.out.println("cette Facture n'existe pas dans la base!");
-			e.printStackTrace();
+			logger.log(Level.INFO,"cette Facture n'existe pas dans la base!");
+			
 		}
 
 	}
@@ -179,20 +184,21 @@ public class IDaoFactureImpl implements IDaoFacture {
 				facture = new Facture(idFactureRecup, numFactureRecup, codeProduitRecup, referenceFactureRecup,
 						prixDeVenteRecup, stockSortieRecup, totalFactureRecup);
 
-				if (facture != null) {
-					System.out.println("Facture trouvée !");
+				if (facture != null ) {
+					logger.log(Level.INFO,"Facture trouvée !");
 				}
 			}
 
 		} catch (SQLException e) {
-			System.out.println("cette facture n'existe pas !");
-			e.printStackTrace();
+			logger.log(Level.INFO,"cette facture n'existe pas !");
+			
 		}
 		finally {
 			try {
 				preparedStatement1.close();
+				
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 		}
