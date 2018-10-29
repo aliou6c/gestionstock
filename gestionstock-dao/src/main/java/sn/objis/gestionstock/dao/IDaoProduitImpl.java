@@ -115,7 +115,7 @@ public class IDaoProduitImpl implements IDaoProduit {
 			}
 		} catch (SQLException e) {
 
-			e.printStackTrace();
+			logger.log(Level.INFO, "echec lors de l'ajout du produit");
 		} finally {
 			try {
 				st.close();
@@ -197,7 +197,7 @@ public class IDaoProduitImpl implements IDaoProduit {
 				
 			} catch (SQLException e) {
 				
-				e.printStackTrace();
+				logger.log(Level.INFO, "echec fermeture de resultset");
 			}
 		}
 

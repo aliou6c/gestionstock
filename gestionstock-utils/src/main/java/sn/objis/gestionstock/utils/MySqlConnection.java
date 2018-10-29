@@ -18,8 +18,8 @@ import java.util.logging.Logger;
 public class MySqlConnection {
 	
 	private static String url="jdbc:mysql://localhost/bd_gestionstock?useSSL=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-	private static String userDb="root";
-	private static String pwdDb="";
+	private static String userDb= getEncryptedUser();
+	private static String pwdDb=getEncryptedPass();
 	private static Connection conn= null;//l'unique instance de connexion à la base
 	
 	//Constructeur priv� pour blocquer la cr�ation d'instance de la classe
@@ -28,6 +28,16 @@ public class MySqlConnection {
 		
 	}
 	
+	private static String getEncryptedUser() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private static String getEncryptedPass() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	/**
 	 * Cette methode retourne l'unique instance de connexion avec la base
 	 * @return
@@ -42,23 +52,19 @@ public class MySqlConnection {
 
 			 logger.addHandler(fh);
 			if(conn==null) {// Aucune connexion avec la base
-				conn=DriverManager.getConnection(url, userDb, pwdDb);
+				conn=DriverManager.getConnection(url + "user=" + userDb + "&password=" +pwdDb);
 				 
 				 logger.log(Level.INFO, "Connexion établie avec la base");
 				  
 				//System.out.println("Connexion établie avec la base");
 			}
 		} catch (IOException e) {
-			//System.out.println("Problème de connexion");
-			//e.printStackTrace();
+			
 			logger.log(Level.INFO, "Probleme de connexion !");
 		}
-		/*}
-		catch(SecurityException e) {
-			e.printStackTrace();
-		}*/
+		
 		catch(SQLException e) {
-			e.printStackTrace();
+			logger.log(Level.INFO, "echec de la connexion !");
 		}
 		finally {
 

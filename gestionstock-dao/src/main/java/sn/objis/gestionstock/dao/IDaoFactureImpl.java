@@ -116,14 +116,14 @@ public class IDaoFactureImpl implements IDaoFacture {
 			}
 		} catch (SQLException e) {
 
-			e.printStackTrace();
+			logger.log(Level.INFO, "echec lors de l'ajout de la facture");
 		}
 		finally {
 			try {
 				st.close();
 			} catch (SQLException e) {
 				
-				e.printStackTrace();
+				logger.log(Level.INFO, "echec fermeture de statement");
 			}
 		}
 
@@ -201,7 +201,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 				
 			} catch (SQLException e) {
 				
-				e.printStackTrace();
+				logger.log(Level.INFO, "echec de fermeture de resultset");
 			}
 		}
 
