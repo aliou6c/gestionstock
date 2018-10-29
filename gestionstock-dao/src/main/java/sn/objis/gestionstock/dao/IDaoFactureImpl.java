@@ -26,7 +26,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 		try {
 			// Etape 1: creation de la zone de requete
 			String sql = "INSERT INTO facture(numFacture,codeProduit,referenceFacture,prixDeVente,stockSortie,totalFacture) VALUES (?,?,?,?,?,?)";
-			PreparedStatement preparedStatement1 = conn.prepareStatement(sql);
+			 preparedStatement1 = conn.prepareStatement(sql);
 
 			// Etape 2: Transmission des valeurs aux paramètres de la requete
 			preparedStatement1.setString(1, facture.getNumFacture());
@@ -57,7 +57,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 		try {
 			// creation de la zone de requete
 			String sql = " UPDATE facture SET numFacture = ?,codeProduit = ?, referenceFacture = ?, prixDeVente = ?,stockSortie = ?,totalFacture=? WHERE numFacture = ? ";
-			PreparedStatement preparedStatement1 = conn.prepareStatement(sql);
+			 preparedStatement1 = conn.prepareStatement(sql);
 
 			// transmission des valeurs aux parametres de la requete
 			preparedStatement1.setString(1, facture.getNumFacture());
@@ -86,11 +86,12 @@ public class IDaoFactureImpl implements IDaoFacture {
 	@Override
 	public List<Facture> afficher() {
 		List<Facture> listeFacture = new ArrayList<>();
+		Statement st = null;
 		
 		try {
 			// creation de la zone de requete
 			String sql = "SELECT * FROM facture ";
-			Statement st = conn.createStatement();
+			 st = conn.createStatement();
 
 			// execution de la requete
 			ResultSet rs = st.executeQuery(sql);
@@ -112,7 +113,14 @@ public class IDaoFactureImpl implements IDaoFacture {
 
 			e.printStackTrace();
 		}
-		
+		finally {
+			try {
+				st.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 
 		return listeFacture;
 	}
@@ -125,7 +133,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 		try {
 			// creation de la zone de requete
 			String sql = "DELETE FROM facture WHERE numFacture = ?";
-			PreparedStatement preparedStatement1 = conn.prepareStatement(sql);
+			 preparedStatement1 = conn.prepareStatement(sql);
 
 			// transmission de valeurs au parametre de la requete
 			preparedStatement1.setString(1, facture.getNumFacture());
@@ -151,7 +159,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 		try {
 			// creation de la zone de requete
 			String sql = "SELECT * FROM facture WHERE numFacture = ? ";
-			PreparedStatement preparedStatement1 = conn.prepareStatement(sql);
+			 preparedStatement1 = conn.prepareStatement(sql);
 
 			preparedStatement1.setString(1, numFacture);
 
