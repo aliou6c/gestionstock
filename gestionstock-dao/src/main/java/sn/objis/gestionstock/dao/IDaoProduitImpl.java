@@ -7,11 +7,18 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import sn.objis.gestionstock.domaine.Produit;
 import sn.objis.gestionstock.utils.MySqlConnection;
 
 public class IDaoProduitImpl implements IDaoProduit {
+	PreparedStatement preparedStatement2 = null;
+	Statement st = null;
+	ResultSet rs = null;
+	Logger logger = Logger.getLogger("logger");
+
 	// Obtention de l'unique instance de connexion à la base
 	Connection conn = MySqlConnection.getInstanceConnection();
 
@@ -23,25 +30,25 @@ public class IDaoProduitImpl implements IDaoProduit {
 		try {
 			// Etape 1: creation de la zone de requete
 			String sql = "INSERT INTO produit(codeProduit,designationProduit,rayon,fournisseur,prix,remise,stock) VALUES (?,?,?,?,?,?)";
-			PreparedStatement ps = conn.prepareStatement(sql);
+			preparedStatement2 = conn.prepareStatement(sql);
 
 			// Etape 2: Transmission des valeurs aux paramètres de la requete
-			ps.setString(1, produit.getCodeProduit());
-			ps.setString(2, produit.getDesignationProduit());
-			ps.setInt(3, produit.getRayon());
-			ps.setString(4, produit.getFournisseur());
-			ps.setInt(5, produit.getPrix());
-			ps.setInt(6, produit.getRemise());
-			ps.setInt(7, produit.getStock());
+			preparedStatement2.setString(1, produit.getCodeProduit());
+			preparedStatement2.setString(2, produit.getDesignationProduit());
+			preparedStatement2.setInt(3, produit.getRayon());
+			preparedStatement2.setString(4, produit.getFournisseur());
+			preparedStatement2.setInt(5, produit.getPrix());
+			preparedStatement2.setInt(6, produit.getRemise());
+			preparedStatement2.setInt(7, produit.getStock());
 
 			// Etape 3: execution de la requete
-			ps.executeUpdate();
+			preparedStatement2.executeUpdate();
 
 			System.out.println("Insertion dans la base réussie !");
 
 		} catch (SQLException e) {
-			System.out.println(" Insertion échouée !");
-			e.printStackTrace();
+			logger.log(Level.INFO, " Insertion échouée !");
+
 		}
 
 	}
@@ -55,25 +62,25 @@ public class IDaoProduitImpl implements IDaoProduit {
 		try {
 			// creation de la zone de requete
 			String sql = " UPDATE produit SET codeProduit = ?, designationProduit = ?, rayon = ?,fournisseur = ?,prix=?,remise=?,stock=? WHERE codeProduit = ? ";
-			PreparedStatement ps = conn.prepareStatement(sql);
+			preparedStatement2 = conn.prepareStatement(sql);
 
 			// transmission des valeurs aux parametres de la requete
-			ps.setString(1, produit.getCodeProduit());
-			ps.setString(2, produit.getDesignationProduit());
-			ps.setInt(3, produit.getRayon());
-			ps.setString(4, produit.getFournisseur());
-			ps.setInt(5, produit.getPrix());
-			ps.setInt(6, produit.getRemise());
-			ps.setInt(7, produit.getStock());
+			preparedStatement2.setString(1, produit.getCodeProduit());
+			preparedStatement2.setString(2, produit.getDesignationProduit());
+			preparedStatement2.setInt(3, produit.getRayon());
+			preparedStatement2.setString(4, produit.getFournisseur());
+			preparedStatement2.setInt(5, produit.getPrix());
+			preparedStatement2.setInt(6, produit.getRemise());
+			preparedStatement2.setInt(7, produit.getStock());
 
 			// execution de la requete
-			ps.executeUpdate();
+			preparedStatement2.executeUpdate();
 
 			System.out.println(" Modification effectuée ! ");
 
 		} catch (SQLException e) {
-			System.out.println(" Echec de la mise à jour ! ");
-			e.printStackTrace();
+			logger.log(Level.INFO, " Echec de la mise à jour ! ");
+
 		}
 
 	}
@@ -87,10 +94,10 @@ public class IDaoProduitImpl implements IDaoProduit {
 		try {
 			// creation de la zone de requete
 			String sql = "SELECT * FROM produit ";
-			Statement st = conn.createStatement();
+			st = conn.createStatement();
 
 			// execution de la requete
-			ResultSet rs = st.executeQuery(sql);
+			rs = st.executeQuery(sql);
 
 			// traitement du resultat de la requete
 			while (rs.next()) {
@@ -109,6 +116,12 @@ public class IDaoProduitImpl implements IDaoProduit {
 		} catch (SQLException e) {
 
 			e.printStackTrace();
+		} finally {
+			try {
+				st.close();
+			} catch (SQLException e) {
+				logger.log(Level.INFO, "Echec lors de la création du produit");
+			}
 		}
 		return listeProduit;
 	}
@@ -121,18 +134,18 @@ public class IDaoProduitImpl implements IDaoProduit {
 		try {
 			// creation de la zone de requete
 			String sql = "DELETE FROM produit WHERE codeProduit = ?";
-			PreparedStatement ps = conn.prepareStatement(sql);
+			preparedStatement2 = conn.prepareStatement(sql);
 
 			// transmission de valeurs au parametre de la requete
-			ps.setString(1, produit.getCodeProduit());
+			preparedStatement2.setString(1, produit.getCodeProduit());
 
 			// execution de la requete
-			ps.executeUpdate();
+			preparedStatement2.executeUpdate();
 
 			System.out.println("Produit supprimé de la base !");
 		} catch (SQLException e) {
-			System.out.println("cet Produit n'existe pas dans la base!");
-			e.printStackTrace();
+			logger.log(Level.INFO, "cet Produit n'existe pas dans la base!");
+
 		}
 
 	}
@@ -147,12 +160,12 @@ public class IDaoProduitImpl implements IDaoProduit {
 		try {
 			// creation de la zone de requete
 			String sql = "SELECT * FROM produit WHERE codeProduit = ? ";
-			PreparedStatement ps = conn.prepareStatement(sql);
+			preparedStatement2 = conn.prepareStatement(sql);
 
-			ps.setString(1, codeProduit);
+			preparedStatement2.setString(1, codeProduit);
 
 			// execution de la requete
-			ResultSet rs = ps.executeQuery();
+			rs = preparedStatement2.executeQuery();
 
 			// traitement du resultat de la requete
 			while (rs.next()) {
@@ -169,13 +182,23 @@ public class IDaoProduitImpl implements IDaoProduit {
 						fournisseurRecup, prixRecup, remiseRecup, stockRecup);
 
 				if (produit != null) {
-					System.out.println("Produit trouvé !");
+					logger.log(Level.INFO,"Produit trouvé !");
 				}
 			}
 
 		} catch (SQLException e) {
-			System.out.println("cet produit n'existe pas !");
-			e.printStackTrace();
+			logger.log(Level.INFO, "cet produit n'existe pas !");
+
+		}
+		finally {
+			try {
+				preparedStatement2.close();
+				rs.close();
+				
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
 		}
 
 		return produit;
