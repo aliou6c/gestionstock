@@ -18,8 +18,8 @@ import java.util.logging.Logger;
 public class MySqlConnection {
 	
 	private static String url="jdbc:mysql://localhost/bd_gestionstock?useSSL=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-	private static String userDb= "root";
-	private static String pwdDb= "";
+	private static String userDb= "alioucisse";
+	private static String pwdDb= "alioucisse";
 	private static Connection conn= null;//l'unique instance de connexion à la base
 	
 	//Constructeur priv� pour blocquer la cr�ation d'instance de la classe
