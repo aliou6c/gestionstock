@@ -42,7 +42,7 @@ public class MySqlConnection {
 
 			 logger.addHandler(fh);
 			if(conn==null) {// Aucune connexion avec la base
-				conn=DriverManager.getConnection(url + "user=" + userDb + "&password=" +pwdDb);
+				conn=DriverManager.getConnection(url, userDb ,pwdDb);
 				 
 				 logger.log(Level.INFO, "Connexion établie avec la base");
 				  
