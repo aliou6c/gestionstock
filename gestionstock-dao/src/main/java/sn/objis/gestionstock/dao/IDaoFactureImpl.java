@@ -44,7 +44,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 			// Etape 3: execution de la requete
 			preparedStatement1.executeUpdate();
 
-			System.out.println("Insertion dans la base réussie !");
+			logger.log(Level.INFO,"Insertion dans la base réussie !");
 
 		} catch (SQLException e) {
 			logger.log(Level.INFO," Insertion échouée !");
@@ -75,7 +75,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 			// execution de la requete
 			preparedStatement1.executeUpdate();
 
-			System.out.println(" Modification effectuée ! ");
+			logger.log(Level.INFO," Modification effectuée ! ");
 
 		} catch (SQLException e) {
 			logger.log(Level.INFO," Echec de la mise à jour ! ");
@@ -146,7 +146,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 			// execution de la requete
 			preparedStatement1.executeUpdate();
 
-			System.out.println("Facture supprimée de la base !");
+			logger.log(Level.INFO,"Facture supprimée de la base !");
 			
 		} catch (SQLException e) {
 			logger.log(Level.INFO,"cette Facture n'existe pas dans la base!");
@@ -184,6 +184,7 @@ public class IDaoFactureImpl implements IDaoFacture {
 
 				facture = new Facture(idFactureRecup, numFactureRecup, codeProduitRecup, referenceFactureRecup,
 						prixDeVenteRecup, stockSortieRecup, totalFactureRecup);
+				
 
 				if (facture != null ) {
 					logger.log(Level.INFO,"Facture trouvée !");

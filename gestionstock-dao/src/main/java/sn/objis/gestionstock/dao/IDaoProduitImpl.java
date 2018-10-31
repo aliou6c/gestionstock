@@ -44,7 +44,7 @@ public class IDaoProduitImpl implements IDaoProduit {
 			// Etape 3: execution de la requete
 			preparedStatement2.executeUpdate();
 
-			System.out.println("Insertion dans la base réussie !");
+			logger.log(Level.INFO,"Insertion dans la base réussie !");
 
 		} catch (SQLException e) {
 			logger.log(Level.INFO, " Insertion échouée !");
@@ -76,7 +76,7 @@ public class IDaoProduitImpl implements IDaoProduit {
 			// execution de la requete
 			preparedStatement2.executeUpdate();
 
-			System.out.println(" Modification effectuée ! ");
+			logger.log(Level.INFO," Modification effectuée ! ");
 
 		} catch (SQLException e) {
 			logger.log(Level.INFO, " Echec de la mise à jour ! ");
@@ -142,7 +142,7 @@ public class IDaoProduitImpl implements IDaoProduit {
 			// execution de la requete
 			preparedStatement2.executeUpdate();
 
-			System.out.println("Produit supprimé de la base !");
+			logger.log(Level.INFO,"Produit supprimé de la base !");
 		} catch (SQLException e) {
 			logger.log(Level.INFO, "cet Produit n'existe pas dans la base!");
 
