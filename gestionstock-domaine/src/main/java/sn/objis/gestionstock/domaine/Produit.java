@@ -12,7 +12,6 @@ public class Produit {
 	private int stock;
 	
 	public Produit() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
